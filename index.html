@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARTHI KINGDOM</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black text-white font-sans overflow-hidden">
+
+    <div class="flex h-screen">
+        <!-- Left Sidebar (Permanently Visible) -->
+        <aside id="sidebar" class="w-64 bg-black p-4 flex flex-col border-r border-white">
+            <button id="new-chat-btn" class="w-full border border-gray-600 rounded-lg p-2 text-left mb-4 hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center text-sm font-medium">
+                <i class="fas fa-plus mr-2"></i> New chat
+            </button>
+            <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">History</h2>
+             <input type="text" id="search-input" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 mb-2 text-sm" placeholder="Search chats...">
+            <div id="chat-history-container" class="flex-grow overflow-y-auto pr-1">
+                <p class="text-gray-500 text-sm px-2">No history yet.</p>
+            </div>
+            
+            <!-- Sidebar Bottom Section -->
+            <div class="mt-auto pt-4 border-t border-gray-700 space-y-2">
+                 <div id="auth-container" class="space-y-2">
+                    <!-- Auth state will be rendered here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <main class="flex-1 flex flex-col bg-black">
+                <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+                    <div id="welcome-message" class="flex flex-col items-center justify-center h-full text-center">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-crown text-3xl text-yellow-400"></i>
+                        </div>
+                        <h1 class="text-4xl font-bold mb-4">KARTHI KINGDOM</h1>
+                        <p class="text-gray-400">Ask me anything nanbaa..</p>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="w-full max-w-3xl mx-auto p-4 border-t border-gray-800/50">
+                    <form id="chat-form" class="relative">
+                        <textarea id="message-input" rows="1" class="w-full bg-gray-800 border-2 border-blue-800 rounded-xl p-4 pr-12 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Message KARTHI KINGDOM..."></textarea>
+                        <button type="submit" id="send-button" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-white rounded-lg hover:text-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                    <p class="text-xs text-center text-gray-500 mt-2">
+                        KARTHI KINGDOM may produce inaccurate info.
+                    </p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div id="rename-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"></div>
+    <div id="rename-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-6 rounded-lg shadow-xl z-50 hidden w-full max-w-sm">
+        <h3 class="text-lg font-semibold mb-4">Rename Chat</h3>
+        <input type="text" id="rename-input" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 mb-4 text-white" placeholder="Enter new title...">
+        <div class="flex justify-end gap-3">
+            <button id="cancel-rename-btn" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 transition-colors">Cancel</button>
+            <button id="save-rename-btn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors">Save</button>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="share-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"></div>
+    <div id="share-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-6 rounded-lg shadow-xl z-50 hidden w-full max-w-lg">
+        <h3 class="text-lg font-semibold mb-4 flex justify-between items-center">
+            <span>Share Chat</span>
+            <button id="close-share-btn" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        </h3>
+        <div id="share-initial-view">
+            <p class="text-gray-300 mb-4">Create a public, read-only link for this conversation that you can share with others.</p>
+            <button id="create-link-btn" class="w-full px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors">Create Link</button>
+        </div>
+        <div id="share-link-view" class="hidden">
+            <p class="text-gray-300 mb-2">Your shareable link is ready:</p>
+            <div class="flex items-center gap-2">
+                <input type="text" id="share-url-input" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white" readonly>
+                <button id="copy-link-btn" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition-colors flex-shrink-0">Copy</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Link to your JavaScript file -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
+

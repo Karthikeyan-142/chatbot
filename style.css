@@ -1,0 +1,179 @@
+/* Custom Styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar for a more modern look */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #1f2937; /* gray-800 */
+}
+::-webkit-scrollbar-thumb {
+    background: #4b5563; /* gray-600 */
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280; /* gray-500 */
+}
+
+/* Chat bubble styling */
+.chat-bubble {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    word-wrap: break-word;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message .chat-bubble {
+    background-color: #3b82f6; /* Blue-500 */
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.bot-message .chat-bubble {
+    background-color: #374151; /* Gray-700 */
+    color: #f3f4f6; /* Gray-100 */
+    border-bottom-left-radius: 4px;
+}
+
+/* Typing indicator animation */
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #9ca3af;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+/* Auto-resize textarea */
+#message-input {
+    min-height: 56px;
+    max-height: 200px;
+}
+
+/* Styles for rendering formatted text (like markdown) */
+.prose {
+    max-width: 100%;
+}
+.prose pre {
+    background-color: #111827; /* A darker shade for code blocks */
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    text-align: left; /* Ensure code blocks are left-aligned */
+}
+.prose code {
+    color: #e5e7eb;
+    font-family: 'Courier New', Courier, monospace;
+}
+.prose code:not(pre code) {
+    background-color: #374151;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+}
+
+/* Ensure auth elements take full width */
+#auth-container button, #auth-container div {
+    width: 100%;
+}
+
+/* Styles for Chat History Actions */
+.history-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    position: relative; /* Needed for dropdown positioning */
+}
+
+.history-item-container:hover {
+    background-color: #1f2937; /* gray-800 */
+}
+
+.history-title-btn {
+    flex-grow: 1;
+    text-align: left;
+    padding: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.history-menu-btn {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: #9ca3af;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.history-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%; /* Position below the button */
+    background-color: #2d3748; 
+    border: 1px solid #4a5563;
+    border-radius: 0.5rem;
+    z-index: 10;
+    width: 140px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    /* Use 'visibility' and 'opacity' for transitions */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.history-dropdown-menu.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    color: #e2e8f0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #4a5563;
+}
+
